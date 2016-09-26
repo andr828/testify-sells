@@ -1,0 +1,10 @@
+(function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "<%= @url %>");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+      document.getElementById('testify-tiles').innerHTML = xhr.responseText;
+    }
+  };
+  xhr.send(null);
+}).call(this);

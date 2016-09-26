@@ -1,0 +1,36 @@
+// function
+var loadTemplate = function(editor, hidden_storage) {
+    var template = '<%= j render plain: @template %>'.replace( /\{client}/g, $('#case_study_client').val()).replace( /\{title}/g, $('#case_study_title').val()).replace( /\{image_path}/g, $('#image_path').val());
+    hidden_storage.val(template);
+    editor.summernote('code', template);
+};
+
+
+// enable button
+$('.add_template').attr('disabled', false);
+
+// recreate form event handler
+$('#template_form input[type="file"]').change(function() {
+    if (/^text\/.*$/.test(this.files[0].type)) {
+        $(this).closest('form').submit();
+        $('.add_template').html('Uploading...');
+        $('.add_template').attr('disabled', true);
+    } else {
+        alert('Please choose html template!');
+    }
+});
+
+
+// init editors
+var $editors = $('[data-provider="summernote"]');
+var editor = $editors.eq(<%= @editor_index %>);
+var hidden_storage = $('<%= @editor_index == 0 ? '#hidden_case_study' : '#hidden_tile' %>');
+
+if (!editor.summernote('isEmpty')) {
+    if (confirm("<%= I18n.t('js.confirm') %>")) {
+        loadTemplate(editor, hidden_storage);
+    }
+} else {
+    loadTemplate(editor, hidden_storage);
+}
+

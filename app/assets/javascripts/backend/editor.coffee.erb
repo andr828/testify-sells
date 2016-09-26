@@ -1,0 +1,135 @@
+$ ->
+  # summernote toolbar
+  # Add button
+  AddButton = (context) ->
+    ui = $.summernote.ui
+    # create button
+    button = ui.button(
+        contents: '<i class="fa fa-child"/> Add button'
+        tooltip: 'Add button'
+        click: ->
+            node = document.createElement('span')
+            node.className += "button"
+            link = document.createElement('a')
+            text = document.createTextNode('New button')
+            link.appendChild(text)
+            node.appendChild(link)
+            context.invoke 'editor.insertNode', node
+            context.invoke 'editor.insertText', '\u00A0'
+            return
+    )
+    button.render()
+
+  # summernote init
+  $('[data-provider="summernote"]').each ->
+    $(this).summernote(
+        height: 300,
+        minHeight: 300,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']],
+            ['custom', ['add_button']]
+        ],
+
+        buttons: {
+            add_button: AddButton
+        }
+    )
+
+  # init editors
+  $editors = $('[data-provider="summernote"]')
+  case_study_editor = $editors.eq(0)
+  tile_editor = $editors.eq(1)
+
+  # load code to editors
+  case_study_editor.summernote('code', $('#hidden_case_study').val())
+  tile_editor.summernote('code', $('#hidden_tile').val())
+
+  # TODO refactor it
+  # copy template code if user undo up to beginning
+  case_study_editor.on 'summernote.change', (we, contents, $editable) ->
+    if contents == '{original}' || contents == '{template}'
+      case_study_editor.summernote('code', $('#hidden_case_study').val())
+    return
+  tile_editor.on 'summernote.change', (we, contents, $editable) ->
+    if contents == '{original}' || contents == '{template}'
+      tile.summernote('code', $('#hidden_tile').val())
+    return
+
+  # TODO checkout what does this code
+  code_shown = false
+  btn = $('#generate-code')
+  code = $('#code').hide()
+  btn.click (e) ->
+    slide = if code_shown then 'slideUp' else 'slideDown'
+    code[slide]()
+    code_shown = !code_shown
+    e.preventDefault()
+
+  # insert code to textarea at form submit
+  $('.case-study-form').submit () ->
+    $('#case_study_template_content').val(case_study_editor.summernote('code'))
+    $('#case_study_tile_template_content').val(tile_editor.summernote('code'))
+
+  # image upload
+  $('#add_image').click () ->
+    $('#image_form input[type="file"]').click()
+  $('#image_form input[type="file"]').change () ->
+    if /^image\/.*$/.test(this.files[0].type)
+      $(this).closest('form').submit()
+      $('#add_image').html('Uploading...')
+      $('#add_image').attr('disabled', true)
+    else
+      alert('Please choose image!')
+
+  # template upload
+  $('#add_case_study_template').click () ->
+    $('#template_form input[name="type"]').val('case_study')
+    $('#template_form input[type="file"]').click()
+
+  $('#add_tile_template').click () ->
+    $('#template_form input[name="type"]').val('tile')
+    $('#template_form input[type="file"]').click()
+
+  $('#template_form input[type="file"]').change () ->
+    if /^text\/.*$/.test(this.files[0].type)
+      $(this).closest('form').submit()
+      $('.add_template').html('Uploading...')
+      $('.add_template').attr('disabled', true)
+    else
+      # TODO reopen due accordion
+      alert('Please choose html template!')
+
+  # Editor
+  $('.choose-template').on 'click', (e) ->
+    self = $(this)
+
+    # define editor
+    if self.data('editor') == 'case_study_template_content'
+      editor = case_study_editor
+      hidden_storage = $('#hidden_case_study')
+    else
+      editor = tile_editor
+      hidden_storage = $('#hidden_tile')
+
+    # warn on template overwrite
+    unless editor.summernote('isEmpty') || editor.summernote('code') == '{template}'
+      return unless confirm("<%= I18n.t('js.confirm') %>")
+
+    # load template into editor
+    $.ajax
+      url: self.data('url')
+      success: (response) ->
+        template = response.template.replace( /\{client}/g, $('#case_study_client').val()).replace( /\{title}/g, $('#case_study_title').val()).replace( /\{image_path}/g, $('#image_path').val())
+        hidden_storage.val(template)
+        editor.summernote('code', template)
+
+    e.preventDefault()

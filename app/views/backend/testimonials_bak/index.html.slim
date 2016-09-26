@@ -1,0 +1,12 @@
+.container.backend-case-studies
+  .row
+    .col-xs-12.header
+      .buttons
+        = link_to t('.new_button'), new_testimonial_path, class: 'btn btn-primary'
+      h1.page-header = t('.title')
+
+  .row.backend-list-case-study
+    - collection.each do |resource|
+      = render 'list_testimonial', resource: resource
+
+  .text-center = paginate collection

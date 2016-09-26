@@ -1,0 +1,50 @@
+%section.body-campaign
+  .wrap-two
+    .row
+      .col-lg-4.col-md-4.col-sm-4.col-xs-12.pull-left
+        %h1.step1 Define the case study and client details
+        %span#campaignName Choose from two campaign types
+      .col-lg-4.col-md-4.col-sm-4.col-xs-12.tests-container
+        .tests
+          #request-review-button.request-write-button
+            %i.fa.fa-envelope-o
+            %span General
+          #new-review-button.request-write-button
+            %i.fa.fa-users
+            %span White Label
+      .col-lg-4.col-md-4.col-sm-4.col-xs-12
+        .camp-prog.pull-right
+          %div{:style => "display: block"}
+            = image_tag('campaign.png')
+          #sfIcons.camp-prog-sf1{:style => "display: none"}
+          #coIcons.camp-prog-co1{:style => "display:none"}
+          #trIcons.camp-prog-tr1{:style => "display: none"}
+/ Body section Input
+%section.body-campaign-input
+  .wrap-three.container-fluid
+    .row
+      .col-lg-12.col-md-12.col-xs-12.col-sm-12
+        #regular
+          #campaign-editor
+            = simple_form_for @case_study do |f|
+              = hidden_field_tag :step, :main
+              #regular-content{:style => ""}
+                %ul.primary-form
+                  %li
+                    %label Name this case study
+                    .helper-text This is a case study title
+                    .box-wrap
+                      = f.input :title, autofocus: 'autofocus', wrapper: 'testify',
+                                       class: 'title-field width-full first'
+                  %li#regSubject{:style => ""}
+                    %label Write a client's name
+                    .helper-text
+                      This will be used in case study construction
+                    .box-wrap
+                      = f.input :client, class: 'clientname-field width-full first', wrapper: 'testify'
+                    = f.submit 'Next', class: 'hidden'
+              .primary-form.padding-none
+                #submit-wrap.button-cancel.wizard{:style => ""}
+                  %button#submitButton.button.primary.huge.forward
+                    Next
+                    %i.fa.fa-arrow-right

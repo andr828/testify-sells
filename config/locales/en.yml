@@ -1,0 +1,99 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        email: Email
+        password: Password
+        name: "Name"
+        url: "Personal URL"
+        password_confirmation: "Password confirmation"
+        current_password: "Current password"
+        domain: "Site domain"
+      case_study:
+        client: Client
+        title: Title
+        template_content: Body
+        tile_template_content: Tile
+      testimonial:
+        name: Person's name
+        role: Person's role
+        company: Company
+        content: Testimonial content
+    models:
+      case_study:
+        one: Case study
+        many: Case studies
+        my: My Case studies
+      testimonial:
+        one: Testimonial
+        many: Testimonials
+        my: My Testimonials
+
+  views:
+    common:
+      new_object: "New %{obj}"
+      create_object: "Create %{obj}"
+      edit_object: "Edit %{obj}"
+      save: Save
+      edit: "Edit"
+      preview: "Preview"
+      actions: Actions
+      delete: Delete
+
+  layouts:
+    header:
+      title: Testify
+      toggle: Toogle navigation
+      log_out: Log out
+      cabinet: Cabinet
+      case_studies: Case studies
+      testimonials: Testimonials
+
+  users:
+    sessions:
+      common:
+        sign_in: Sign in
+        sign_up: Sign up
+        forgot_password: Forgot password?
+        or: OR
+    registrations:
+      edit: Edit profile
+      code: Code
+
+  frontend:
+    case_studies:
+      index:
+        title: "%{user} case studies"
+
+
+  backend:
+    case_studies:
+      index:
+        title: Your case studies
+        new_button: Create new
+      form:
+        image_hint: Chose a large image
+        case_study_template: Case study template
+        reset: "Changing template resets all your changes"
+        tile_template: "Tile template"
+        customize: "Customize"
+      template_preview:
+        choose: "Choose"
+    testimonials:
+      index:
+        title: Your testimonials
+        new_button: Create new
+      form:
+        image_hint: Chose a large image
+        testimonial_template: Testimonial template
+        reset: "Changing template resets all your changes"
+        customize: "Customize"
+      template_preview:
+        choose: "Choose"
+
+  js:
+    confirm: Are you sure? Your customization will be lost.
+
+  errors:
+    messages:
+      already_exists: Such %{attr} already exist

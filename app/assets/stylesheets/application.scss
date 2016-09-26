@@ -1,0 +1,87 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require font-awesome
+ *= require_self
+ */
+
+// Variables
+
+//$brand-primary: #47c144;
+//$brand-primary: #909090;
+//$body-padding-top: 50px;
+
+@import "bootstrap-sprockets";
+//@import "bootswatch/cosmo/variables";
+@import "bootstrap";
+//body { padding-top: $body-padding-top; }
+//@import "bootswatch/cosmo/bootswatch";
+@import "summernote";
+
+// import 3rd-party styles
+@import "cm/animate";
+@import "cm/main";
+@import "cm/responsive";
+@import "cm/adjustments";
+@import "backend/editor";
+@import "backend/reviews";
+
+
+@import 'frontend/sessions';
+
+
+//@import "./**/*";
+
+//.flashes {
+//  margin-top: $grid-gutter-width / 2;
+//}
+
+//.user-code {
+//  max-height: 334px;
+//}
+
+.scrollable-templates{
+  overflow: auto;
+  height: 90vh;
+
+  background: #f4f4f4 none repeat scroll 0 0;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+
+  .template {
+    margin: 10px 10%;
+    width: 80%;
+    cursor: pointer;
+
+    &.selected {
+      img {
+        border: solid 5px #19a9e5;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+form {
+  .has-error {
+    input, textarea {
+      border: solid 2px #a94442;
+    }
+
+    .help-block {
+      padding-left: 5px;
+    }
+  }
+}

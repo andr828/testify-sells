@@ -1,0 +1,103 @@
+.backend-case-studies {
+  .header {
+    .buttons {
+      @extend .pull-right;
+      margin-top: ($line-height-computed * 2);
+    }
+    .buttons-sm {
+      @extend .pull-right;
+      margin-top: 23px;
+    }
+  }
+
+  .image {
+    height: 400px;
+    background-size: cover;
+    background-position: 50% 50%;
+    margin-bottom: $line-height-computed;
+  }
+}
+
+.backend-case-study {
+  @extend .backend-case-studies;
+
+  .code {
+
+  }
+
+  .tile-code {
+    textarea {
+      width: 100%;
+      height: 200px;
+      resize: none;
+    }
+  }
+}
+
+.backend-edit-case-study,
+.backend-new-case-study {
+  @extend .backend-case-studies;
+
+  .form-group.file {
+    .file-wrapper-row {
+      @extend .col-md-12;
+    }
+
+    .file-wrapper-col {
+      @include clearfix;
+      padding: 10px ($padding-base-horizontal - ceil($grid-gutter-width / 2));
+      border: 1px solid #ccc;
+      color: lighten($text-color, 35%)
+    }
+
+    label {
+      padding-top: 0;
+      font-weight: normal;
+      text-align: left;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .form-group.file.has-error {
+    .file-wrapper-col {
+      border-color: $brand-danger;
+    }
+  }
+
+  .reset-info {
+    @extend .text-muted;
+    margin-top: ceil($grid-gutter-width / 2);
+  }
+
+  .form-buttons {
+    margin-bottom: 15px;
+  }
+}
+
+.backend-list-case-study {
+  .case-study {
+    word-break: break-word;
+    width: 22.4%;
+    margin: 15px;
+    min-height: 200px;
+    background-color: #ecebed;
+    border: 1px solid #d8d8d8;
+
+    a, a:hover, a:active {
+      text-decoration: none;
+    }
+
+    .content {
+      margin-bottom: 50px;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+}

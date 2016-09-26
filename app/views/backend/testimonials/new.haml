@@ -1,0 +1,110 @@
+%section.body-campaign
+  .wrap-two
+    .row
+      .col-lg-4.col-md-4.col-sm-4.col-xs-12.pull-left
+        %h1.step1 New Testimonial
+        %span#campaignName Select template and fill necessary fields
+      .col-lg-4.col-md-4.col-sm-4.col-xs-12.tests-container
+        .tests
+          #request-testimonial-button.request-write-button
+            %i.fa.fa-envelope-o
+            %span Review
+          #new-testimonial-button.request-write-button
+            %i.fa.fa-users
+            %span Write Myself
+      .col-lg-4.col-md-4.col-sm-4.col-xs-12
+        .camp-prog.pull-right
+          %div{:style => "display: block"}
+            = image_tag('campaign.png')
+          #sfIcons.camp-prog-sf1{:style => "display: none"}
+          #coIcons.camp-prog-co1{:style => "display:none"}
+          #trIcons.camp-prog-tr1{:style => "display: none"}
+/ Body section Input
+%section#new-testimonial-form.body-campaign-input
+  .wrap-three.container-fluid
+    .row
+      .col-lg-3.col-sm-4.col-xs-12
+        .scrollable-templates
+          - @templates.each do |template|
+            .template.col-sm-12
+              - if template.preview.file?
+                = image_tag template.preview.url, :class => 'testimonial-template-thumbs', :data => {:template_id => template.id}
+              - else
+                = image_tag 'nav-img.png', :class => 'testimonial-template-thumbs', :data => {:template_id => template.id}
+      .col-lg-9.col-xs-12.col-sm-8
+        #regular
+          #campaign-editor
+            = simple_form_for @testimonial do |f|
+              #regular-content{:style => ""}
+                %ul.primary-form
+                  %li
+                    %label Write testimonial by myself
+                    .helper-text
+                      You can write testimonial, also you can request it from your client
+                    .box-wrap
+                      = f.input :name, autofocus: 'autofocus', placeholder: "Client's name",
+                                       class: 'title-field width-full first', wrapper: 'testify'
+                    .box-wrap
+                      = f.input :image, wrapper: 'testify'
+                      .image{style: 'width: 200px;'}
+                        = image_tag(@testimonial.image.url) if @testimonial.image?
+                    .box-wrap
+                      = f.input :role, placeholder: "Client's role in company",
+                                       class: 'title-field width-full first', wrapper: 'testify'
+                    .box-wrap
+                      = f.input :company, placeholder: "Company",
+                                       class: 'title-field width-full first', wrapper: 'testify'
+                    .box-wrap
+                      = f.input :content, class: 'clientname-field width-full first', wrapper: 'testify',
+                                    style: 'resize: none; height: 150px;', placeholder: 'Testimonial'
+                      = f.input :template_id, :as => :hidden, :input_html => {:class => 'testimonial-template-field'}
+                    = f.submit 'Next', class: 'hidden'
+              .primary-form.padding-none
+                #submit-wrap.button-cancel.wizard{:style => ""}
+                  %button#submitButton.button.primary.huge.forward
+                    Create
+
+%section#request-testimonial-form.body-campaign-input
+  .wrap-three.container-fluid
+    .row
+      .col-lg-12.col-xs-12.col-sm-8
+        #regular
+          #campaign-editor
+            = simple_form_for @request, :url => create_testimonial_request_path do |f|
+              #regular-content{:style => ""}
+                %ul.primary-form
+                  %li
+                    %label Sender info
+                    .helper-text This is your details as sender
+                    .box-wrap
+                      = f.input :sender, placeholder: "Sender's name",
+                                       class: 'title-field width-full first', wrapper: 'testify'
+                    .box-wrap
+                      = f.input :reply_to, placeholder: 'reply to address',
+                                       class: 'title-field width-full first', wrapper: 'testify'
+                  %li#regSubject{:style => ""}
+                    %label Recipient info
+                    .helper-text
+                      This is your customer's details
+                    .box-wrap
+                      = f.input :name, autofocus: 'autofocus', placeholder: "Recipient's name",
+                                     class: 'clientname-field width-full first', wrapper: 'testify'
+                    .box-wrap
+                      = f.input :email, placeholder: "Recipient's email",
+                                     class: 'clientname-field width-full first', wrapper: 'testify'
+                  %li#regSubject{:style => ""}
+                    %label Request info
+                    .helper-text
+                      This is your request for testimonial details
+                    .box-wrap
+                      = f.input :subject, placeholder: 'Email subject',
+                                     class: 'clientname-field width-full first', wrapper: 'testify'
+                    .box-wrap
+                      = f.input :message, placeholder: 'Request message',
+                                     class: 'clientname-field width-full first', wrapper: 'testify'
+                    = f.submit 'Next', class: 'hidden'
+              .primary-form.padding-none
+                #submit-wrap.button-cancel.wizard{:style => ""}
+                  %button#submitButton.button.primary.huge.forward
+                    Send
+                    %i.fa.fa-arrow-right
